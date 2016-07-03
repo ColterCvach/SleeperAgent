@@ -2,22 +2,22 @@
 using System.Collections;
 using System;
 
-public class Idel : State {
-    private static Idel _instance;
+public class Idle : State {
+    private static Idle _instance;
 
-    public static Idel Instance
+    public static Idle Instance
     {
         get
         {
             if (_instance == null)
             {
-                _instance = new Idel();
+                _instance = new Idle();
             }
             return _instance;
         }
     }
 
-    private Idel() { }
+    private Idle() { }
 
     public void Enter(GameObject target) {}
 

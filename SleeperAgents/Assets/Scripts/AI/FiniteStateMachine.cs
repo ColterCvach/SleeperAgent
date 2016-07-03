@@ -4,7 +4,7 @@ using System.Collections;
 public class FiniteStateMachine : MonoBehaviour
 {
     private State lastState;
-    private State currentState = Idel.Instance;
+    private State currentState = Idle.Instance;
     private State defualtState;
 
     // Use this for initialization
