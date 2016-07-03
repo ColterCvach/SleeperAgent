@@ -4,13 +4,14 @@ using System.Collections;
 public class SleeperAgent : MonoBehaviour {
     private FiniteStateMachine FSM;
     private Mover mover;
-
+    private Attacker attacker;
 
 	// Use this for initialization
 	void Start () {
         mover = this.GetComponent<Mover>();
         FSM = this.GetComponent<FiniteStateMachine>();
-	}
+        attacker = this.GetComponent<Attacker>();
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -24,5 +25,10 @@ public class SleeperAgent : MonoBehaviour {
             }
             FSM.ChangeState(MoveToLocation.Instance);
         }
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            attacker.ToggleDrawnWeapon();
+        }
+        
 	}
 }
