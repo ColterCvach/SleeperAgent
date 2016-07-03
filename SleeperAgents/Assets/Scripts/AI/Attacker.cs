@@ -24,7 +24,7 @@ public class Attacker : MonoBehaviour {
 
     public void Attack()
     {
-        if (Input.GetMouseButtonDown(1) && weaponDrawn)
+        if (weaponDrawn)
         {
             weapon.gameObject.SetActive(true);
         } else
