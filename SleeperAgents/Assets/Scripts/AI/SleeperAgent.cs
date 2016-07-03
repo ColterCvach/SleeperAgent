@@ -7,7 +7,7 @@ public class SleeperAgent : MonoBehaviour {
     private Attacker attacker;
 
 	// Use this for initialization
-	void Start () {
+	void Awake () {
         mover = this.GetComponent<Mover>();
         FSM = this.GetComponent<FiniteStateMachine>();
         attacker = this.GetComponent<Attacker>();
@@ -25,10 +25,20 @@ public class SleeperAgent : MonoBehaviour {
             }
             FSM.ChangeState(MoveToLocation.Instance);
         }
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            attacker.ToggleDrawnWeapon();
-        }
-        
+	}
+
+	public void IncreaseSpeed()
+	{
+		mover.IncrementSpeed (); 
+	}
+
+	public int CurrentSpeed()
+	{
+		return mover.currentSelectedSpeed; 
+	}
+
+	public void Attack()
+	{
+		attacker.ToggleDrawnWeapon();
 	}
 }

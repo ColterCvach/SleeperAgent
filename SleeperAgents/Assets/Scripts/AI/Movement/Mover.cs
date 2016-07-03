@@ -7,6 +7,9 @@ public class Mover : MonoBehaviour {
     public Vector3 destination;
     public int currentSelectedSpeed = 1;
     public float[] speeds = { 0.0f, 1.0f, 2.0f, 3.0f };
+	public float MaxSpeed {
+		get{return speeds [speeds.Length-1]; } 
+	}
 
     // Use this for initialization
     void Start () {
@@ -21,10 +24,15 @@ public class Mover : MonoBehaviour {
 
     public void changeSelectedSpeed(int selectedSpeed)
     {
-        if(!(selectedSpeed < 0 || selectedSpeed > 3))
+		if(selectedSpeed>=0 && selectedSpeed<speeds.Length)
         {
             currentSelectedSpeed = selectedSpeed;
-            navMeshAgent.speed = currentSelectedSpeed;
+            navMeshAgent.speed = speeds[currentSelectedSpeed];
         }
     }
+	public void IncrementSpeed()
+	{
+		currentSelectedSpeed = (currentSelectedSpeed + 1) % speeds.Length;
+		changeSelectedSpeed (currentSelectedSpeed); 
+	}
 }
