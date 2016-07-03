@@ -29,7 +29,7 @@ public class Attacker : MonoBehaviour {
             weapon.gameObject.SetActive(true);
         } else
         {
-            weapon.enabled = false;
+			weapon.gameObject.SetActive (false);
         }
     }
 
