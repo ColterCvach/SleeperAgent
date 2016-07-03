@@ -21,7 +21,7 @@ public class SleeperAgent : MonoBehaviour {
 
             if (Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit, 100))
             {
-                mover.destination = hit.point;
+				mover.SetDestination(hit.point);
             }
             FSM.ChangeState(MoveToLocation.Instance);
         }

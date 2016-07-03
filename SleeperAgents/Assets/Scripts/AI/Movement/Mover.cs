@@ -35,4 +35,10 @@ public class Mover : MonoBehaviour {
 		currentSelectedSpeed = (currentSelectedSpeed + 1) % speeds.Length;
 		changeSelectedSpeed (currentSelectedSpeed); 
 	}
+
+	public void SetDestination(Vector3 newDestination)
+	{
+		destination = new Vector3 (this.gameObject.transform.position.x, newDestination.y, newDestination.z); 
+	}
+
 }
