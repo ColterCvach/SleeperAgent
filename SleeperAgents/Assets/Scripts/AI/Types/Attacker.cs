@@ -6,13 +6,15 @@ public class Attacker : MonoBehaviour {
     private Inventory inventory;
 
     [SerializeField]
-    private bool weaponDrawn = false;
-    private Weapon weapon;
+    private bool _weaponDrawn = false;
+    public bool weaponDrawn { get { return _weaponDrawn; } }
+    private Weapon _weapon;
+    public Weapon weapon { get { return _weapon; } }
 
     // Use this for initialization
     void Start()
     {
-        weapon = inventory.equipedWeapon;
+        _weapon = inventory.equipedWeapon;
         weapon.gameObject.SetActive(false);
     }
 
@@ -24,7 +26,7 @@ public class Attacker : MonoBehaviour {
 
     public void Attack()
     {
-        if (weaponDrawn)
+        if (_weaponDrawn)
         {
             weapon.gameObject.SetActive(true);
         } else
@@ -35,6 +37,6 @@ public class Attacker : MonoBehaviour {
 
     public void ToggleDrawnWeapon()
     {
-        weaponDrawn = !weaponDrawn;
+        _weaponDrawn = !_weaponDrawn;
     }
 }

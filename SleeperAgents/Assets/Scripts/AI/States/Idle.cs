@@ -19,9 +19,9 @@ public class Idle : State {
 
     private Idle() { }
 
-    public void Enter(GameObject target) {}
+    public void Enter(Actor target) {}
 
-    public void Execute(GameObject target) {}
+    public void Execute(Actor target) {}
 
-    public void Exit(GameObject target) {}
+    public void Exit(Actor target) {}
 }

@@ -14,7 +14,6 @@ public class Mover : MonoBehaviour {
     // Use this for initialization
     void Start () {
         navMeshAgent = GetComponent<NavMeshAgent>();
-
     }
 	
 	// Update is called once per frame

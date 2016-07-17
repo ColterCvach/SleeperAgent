@@ -1,16 +1,17 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class SleeperAgent : MonoBehaviour {
-    private FiniteStateMachine FSM;
+public class SleeperAgent : Actor {
     private Mover mover;
     private Attacker attacker;
+    private Suspect suspect;
 
 	// Use this for initialization
 	void Awake () {
         mover = this.GetComponent<Mover>();
         FSM = this.GetComponent<FiniteStateMachine>();
         attacker = this.GetComponent<Attacker>();
+        suspect = this.GetComponent<Suspect>();
     }
 	
 	// Update is called once per frame
@@ -40,5 +41,13 @@ public class SleeperAgent : MonoBehaviour {
 	public void Attack()
 	{
 		attacker.ToggleDrawnWeapon();
-	}
+        if (attacker.weaponDrawn)
+        {
+            suspect.suspicionLevel = attacker.weapon.suspicionModifyer;
+        }
+        else
+        {
+            suspect.suspicionLevel = 0;
+        }
+    }
 }

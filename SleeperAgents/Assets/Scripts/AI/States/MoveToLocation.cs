@@ -7,7 +7,6 @@ public class MoveToLocation : State
     private static MoveToLocation _instance;
     private Dictionary<GameObject, NavMeshAgent> navMesheAgents = new Dictionary<GameObject, NavMeshAgent>();
     private Dictionary<GameObject, Mover> destinations = new Dictionary<GameObject, Mover>();
-    private Dictionary<GameObject, FiniteStateMachine> FSMs = new Dictionary<GameObject, FiniteStateMachine>();
 
     public static MoveToLocation Instance
     { get
@@ -22,23 +21,23 @@ public class MoveToLocation : State
 
     private MoveToLocation() { }
 
-    public void Enter(GameObject target)
+    public void Enter(Actor target)
     {
-        NavMeshAgent navMeshAgent = GetNavMeshAgent(target);
-        navMeshAgent.destination = GetMover(target).destination;
+        NavMeshAgent navMeshAgent = GetNavMeshAgent(target.gameObject);
+        navMeshAgent.destination = GetMover(target.gameObject).destination;
     }
 
-    public void Execute(GameObject target)
+    public void Execute(Actor target)
     {
-        if(target.transform.position == GetMover(target).destination)
+        if(target.transform.position == GetMover(target.gameObject).destination)
         {
-            GetStatMachine(target).defualt();
+           target.FSM.defualt();
         }
     }
 
-    public void Exit(GameObject target)
+    public void Exit(Actor target)
     {
-        NavMeshAgent navMeshAgent = GetNavMeshAgent(target);
+        NavMeshAgent navMeshAgent = GetNavMeshAgent(target.gameObject);
         navMeshAgent.destination = target.transform.position;
     }
 
@@ -62,17 +61,6 @@ public class MoveToLocation : State
             destinations.Add(target, targetMover);
         }
         return targetMover;
-    }
-
-    private FiniteStateMachine GetStatMachine(GameObject target)
-    {
-        FiniteStateMachine targetFSM = null;
-        if (!FSMs.TryGetValue(target, out targetFSM))
-        {
-            targetFSM = target.GetComponent<FiniteStateMachine>();
-            FSMs.Add(target, targetFSM);
-        }
-        return targetFSM;
     }
 }
 

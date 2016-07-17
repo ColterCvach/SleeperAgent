@@ -3,7 +3,7 @@ using System.Collections;
 
 public interface State
 {
-    void Enter(GameObject target);
-    void Execute(GameObject target);
-    void Exit(GameObject target);
+    void Enter(Actor target);
+    void Execute(Actor target);
+    void Exit(Actor target);
 }
