@@ -27,7 +27,7 @@ public class PipeGameControllerEditor : Editor {
 		// }
 
 		if (GUILayout.Button ("Create Board")) {
-			Debug.Log ("Create Board"); 
+			_pipeGameController.GenerateBasicTiles ();
 		}
 	}
 }

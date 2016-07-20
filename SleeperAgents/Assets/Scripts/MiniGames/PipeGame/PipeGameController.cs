@@ -23,14 +23,20 @@ public class PipeGameController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        tiles = new GameObject[Width, Height];
-        for(int i = 0; i < Width; i ++)
-        {
-            for(int j = 0; j < Height; j ++)
-            {
-                tiles[i,j] = (GameObject) Instantiate(DefaultTile, new Vector3(i, j, 0.0f), Quaternion.identity);
-            }
-        }
+
+	}
+
+	public void GenerateBasicTiles()
+	{
+		tiles = new GameObject[Width, Height];
+		for(int i = 0; i < Width; i ++)
+		{
+			for(int j = 0; j < Height; j ++)
+			{
+				tiles[i,j] = (GameObject) Instantiate(DefaultTile, new Vector3(i, j, 0.0f), Quaternion.identity);
+				tiles [i, j].transform.parent = this.gameObject.transform;
+			}
+		}
 	}
 	
 	// Update is called once per frame
