@@ -36,7 +36,7 @@ public class PipeGameController : MonoBehaviour {
 		{
 			for(int j = 0; j < Height; j ++)
 			{
-				tiles[i,j] = (GameObject) Instantiate(DefaultTile, new Vector3(i, j, 0.0f), Quaternion.identity);
+				tiles[i,j] = (GameObject) Instantiate(DefaultTile, new Vector3(i+(i*.05f), j + (j*.05f), 0.0f), Quaternion.identity);
                 tiles[i, j].transform.parent = tileHolder.gameObject.transform;
 			}
 		}

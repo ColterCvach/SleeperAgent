@@ -17,15 +17,6 @@ public class PipeGameControllerEditor : Editor {
 	{
 		base.OnInspectorGUI();
 
-		// if(GUILayout.Button("Reset"))
-		// {
-		// 	_mapBuilder.ReMakeSquares();
-		// }
-		// if(GUILayout.Button("Randomize Spawner Seeds"))
-		// {
-		// 	_mapBuilder.RandomizeAllSpanwerSeeds(); 
-		// }
-
 		if (GUILayout.Button ("Create Board")) {
             _pipeGameController.EraseCurrentBoard(); 
 			_pipeGameController.GenerateBasicTiles ();
