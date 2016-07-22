@@ -5,3 +5,6 @@ SleeperAgents/Assembly-CSharp.csproj
 SleeperAgents/SleeperAgents.sln
 SleeperAgents/SleeperAgents.userprefs
 SleeperAgents/Assembly-CSharp-Editor.csproj
+SleeperAgents/SleeperAgents.CSharp.csproj
+SleeperAgents/SleeperAgents.CSharp.Editor.csproj
+SleeperAgents/.vs/SleeperAgents/v14/.suo

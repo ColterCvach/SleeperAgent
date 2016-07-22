@@ -28,16 +28,29 @@ public class PipeGameController : MonoBehaviour {
 
 	public void GenerateBasicTiles()
 	{
+        GameObject tileHolder = new GameObject();
+        tileHolder.name = "TILE HOLDER, PLEASE IGNORE"; 
+        tileHolder.gameObject.transform.parent = this.gameObject.transform; 
 		tiles = new GameObject[Width, Height];
 		for(int i = 0; i < Width; i ++)
 		{
 			for(int j = 0; j < Height; j ++)
 			{
 				tiles[i,j] = (GameObject) Instantiate(DefaultTile, new Vector3(i, j, 0.0f), Quaternion.identity);
-				tiles [i, j].transform.parent = this.gameObject.transform;
+                tiles[i, j].transform.parent = tileHolder.gameObject.transform;
 			}
 		}
 	}
+
+    public void EraseCurrentBoard()
+    {
+        int childCount = this.gameObject.transform.childCount;
+
+        for(int i=0; i < childCount;i++)
+        {
+            DestroyImmediate(this.gameObject.transform.GetChild(0).gameObject);
+        }
+    }
 	
 	// Update is called once per frame
 	void Update () {
