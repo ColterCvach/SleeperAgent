@@ -35,6 +35,8 @@ public class TileEditor : Editor {
                         var instantiatedPipe = ((GameObject)Instantiate(currentPipe, currentTile.transform.position, currentPipe.gameObject.transform.rotation)).GetComponent<Pipe>();
                         currentTile.TilePipe = instantiatedPipe;
                         instantiatedPipe.transform.parent = currentTile.gameObject.transform;
+                        instantiatedPipe.X = currentTile.X;
+                        instantiatedPipe.Y = currentTile.Y; 
                     }
                 }
             }

@@ -12,6 +12,8 @@ public class Pipe : MonoBehaviour {
     [SerializeField] private int _x;
     [SerializeField] private int _y;
     [SerializeField] private float _fillRate = 0.1f;
+    [SerializeField] private string _levelKey = "";
+    public string LevelKey { get { return _levelKey; } set { _levelKey = value; } }
 
     [SerializeField] private List<Directions> _openings = new List<Directions>();
 
@@ -30,4 +32,5 @@ public class Pipe : MonoBehaviour {
 	void Update () {
 	
 	}
+
 }

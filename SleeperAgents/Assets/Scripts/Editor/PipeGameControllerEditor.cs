@@ -17,9 +17,17 @@ public class PipeGameControllerEditor : Editor {
 	{
 		base.OnInspectorGUI();
 
-		if (GUILayout.Button ("Create Board")) {
+		if (GUILayout.Button ("Create New Board")) {
             _pipeGameController.EraseCurrentBoard(); 
-			_pipeGameController.GenerateBasicTiles ();
+			_pipeGameController.GenerateBasicTileForLevelEditors ();
 		}
+        if(GUILayout.Button("Load Level"))
+        {
+
+        }
+        if(GUILayout.Button("Save Level"))
+        {
+            LevelCreationUtility.SaveLevelDataFromString(_pipeGameController); 
+        }
 	}
 }
