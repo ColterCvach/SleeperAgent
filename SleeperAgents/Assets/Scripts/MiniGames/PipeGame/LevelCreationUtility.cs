@@ -6,62 +6,6 @@ using System;
 
 public class LevelCreationUtility : MonoBehaviour {
 
-    public PipeCollection _allPipes = new PipeCollection();
-
-    private Dictionary<string, Pipe> _allPipesDictionary;
-
-    private Pipe this[string s] {
-        get {
-            if(_allPipesDictionary==null)
-            {
-                CreateDictionary(); 
-            }
-            return _allPipesDictionary[s];
-        }
-    }
-
-    private static LevelCreationUtility Instance;
-
-    void Start()
-    {
-        Init(); 
-    }
-
-    void Reset()
-    {
-        Init();
-    }
-
-    private void Init()
-    {
-        if (Instance != null)
-        {
-            Destroy(this.gameObject);
-        }
-        else
-        {
-            LevelCreationUtility.Instance = this;
-#if !UNITY_EDITOR
-            DontDestroyOnLoad(Instance);
-#endif
-        }
-    }
-
-    private void CreateDictionary()
-    {
-        if(_allPipesDictionary==null)
-        {
-            _allPipesDictionary = new Dictionary<string, Pipe>();
-            for(int i=0; i < _allPipes.Pipes.Count;i++)
-            {
-                _allPipesDictionary.Add(_allPipes.Pipes[i].LevelKey, _allPipes.Pipes[i]); 
-            }
-            _allPipes = null; 
-        }
-    }
-
-
-
     public static void SaveLevelDataFromString(PipeGameController level)
     {
         // Generate String and set it
@@ -84,12 +28,34 @@ public class LevelCreationUtility : MonoBehaviour {
         {
             for(int j =0; j<level.Height;j++)
             {
-                string currentPipeKey = dataPieces[1 + (i + j)];
-                Pipe appropriatePipe = Instance[currentPipeKey];
-                Pipe NewPipe = (Instantiate(appropriatePipe, level[i, j].transform.position, appropriatePipe.transform.rotation) as GameObject).GetComponent<Pipe>();
-                NewPipe.X = i;
-                NewPipe.Y = j;
-                level[i, j].TilePipe = NewPipe; 
+                string currentPipeKey = dataPieces[1 + ((i*level.Width) + j)];
+                if(!currentPipeKey.Equals("0"))
+                {
+                    Pipe appropriatePipe = level.GetPipeByKey(currentPipeKey);
+
+                    if(appropriatePipe!=null)
+                    {
+                        Pipe newPipe = (Pipe)(Instantiate(appropriatePipe, level[i, j].transform.position, new Quaternion()));
+                        if(newPipe!=null)
+                        {
+                            newPipe.X = i;
+                            newPipe.Y = j;
+                            level[i, j].TilePipe = newPipe;
+                            newPipe.transform.parent = level[i, j].transform;
+                        }
+                        else
+                        {
+                            Debug.Log("HOW DID THIS HAPPEN"); 
+                        }
+
+                    }
+                    else
+                    {
+                        Debug.LogWarning("Could not find pipe with key " + currentPipeKey); 
+                    }
+
+                }
+
             }
         }
     }
@@ -107,10 +73,15 @@ public class LevelCreationUtility : MonoBehaviour {
         {
             for(int j =0; j < level.Height;j++)
             {
-                levelStringBuilder.Append(string.Format("|{0}", level[i, j].TilePipe.LevelKey)); 
+                Pipe toWrite = level[i, j].TilePipe;
+                string data = "0"; 
+                if(toWrite!=null)
+                {
+                    data = toWrite.LevelKey;
+                }
+                levelStringBuilder.Append(string.Format("|{0}", data)); 
             }
         }
-
         return levelStringBuilder.ToString();
     }
 }

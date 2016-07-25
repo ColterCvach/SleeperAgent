@@ -2,6 +2,12 @@
 using System.Collections;
 
 public class PipeGameController : MonoBehaviour {
+
+    public PipeCollection _allPipes = new PipeCollection();
+
+
+
+
     [SerializeField]
     private GameObject _defaultTile;
     public GameObject DefaultTile { get { return _defaultTile; } }
@@ -10,6 +16,10 @@ public class PipeGameController : MonoBehaviour {
     private int _width;
     public int Width { get { return _width; } set { _width = value; } }
 
+
+
+
+
     public Tile this[int x, int y]
     {
         get
@@ -17,7 +27,7 @@ public class PipeGameController : MonoBehaviour {
             Tile toReturn = null;
             if(tiles==null)
             {
-
+                GenerateTilesArrayFromChildren(); 
             }
             if ((x >= 0 && x < Width) && (y >= 0 && y < Height))
             {
@@ -43,7 +53,7 @@ public class PipeGameController : MonoBehaviour {
 
     [SerializeField]
     private string _levelData = "";
-    public string LevelData { get; set; }
+    public string LevelData { get { return _levelData; } set { _levelData = value; } }
 
     private Tile start;
     private Tile fillingTile;
@@ -51,7 +61,7 @@ public class PipeGameController : MonoBehaviour {
     private Tile[,] tiles;
 
     public Tile selectedTile;
-
+    private GameObject tileHolder;
 	// Use this for initialization
 	void Start () {
 
@@ -59,9 +69,10 @@ public class PipeGameController : MonoBehaviour {
 
 	public void GenerateBasicTileForLevelEditors()
 	{
-        GameObject tileHolder = new GameObject();
+        tileHolder = new GameObject();
         tileHolder.name = "TILE HOLDER, PLEASE IGNORE"; 
-        tileHolder.gameObject.transform.parent = this.gameObject.transform; 
+        tileHolder.gameObject.transform.parent = this.gameObject.transform;
+        Debug.Log("Generating all tiles"); 
 		tiles = new Tile[Width, Height];
 		for(int i = 0; i < Width; i ++)
 		{
@@ -77,6 +88,15 @@ public class PipeGameController : MonoBehaviour {
 
     public void GenerateTilesArrayFromChildren()
     {
+        tiles = new Tile[Width, Height];
+
+        for (int i =0; i < Width;i++)
+        {
+            for(int j =0; j < Height; j++)
+            {
+                tiles[i, j] = tileHolder.transform.GetChild((i * Width) + j).gameObject.GetComponent<Tile>(); 
+            }
+        }
     }
 
     public void EraseCurrentBoard()
@@ -93,6 +113,22 @@ public class PipeGameController : MonoBehaviour {
         {
             DestroyImmediate(this.gameObject.transform.GetChild(0).gameObject);
         }
+    }
+
+    public Pipe GetPipeByKey(string key)
+    {
+        Pipe ret = null;
+        bool found = false; 
+        for(int i= 0; i < _allPipes.Pipes.Count && !found;i++)
+        {
+            if(_allPipes.Pipes[i].LevelKey.Equals(key))
+            {
+                found = true;
+                ret = _allPipes.Pipes[i]; 
+            }
+        }
+
+        return ret;
     }
 
 	

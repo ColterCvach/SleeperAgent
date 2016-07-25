@@ -23,7 +23,7 @@ public class PipeGameControllerEditor : Editor {
 		}
         if(GUILayout.Button("Load Level"))
         {
-
+            LevelCreationUtility.GenerateLevelFromString(_pipeGameController);
         }
         if(GUILayout.Button("Save Level"))
         {
