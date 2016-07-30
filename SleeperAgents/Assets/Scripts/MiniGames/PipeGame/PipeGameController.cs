@@ -1,12 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Linq;
 
 public class PipeGameController : MonoBehaviour {
 
     public PipeCollection _allPipes = new PipeCollection();
-
-
-
 
     [SerializeField]
     private GameObject _defaultTile;
@@ -15,10 +13,6 @@ public class PipeGameController : MonoBehaviour {
     [SerializeField]
     private int _width;
     public int Width { get { return _width; } set { _width = value; } }
-
-
-
-
 
     public Tile this[int x, int y]
     {
@@ -44,12 +38,9 @@ public class PipeGameController : MonoBehaviour {
         }
     }
 
-
     [SerializeField]
     private int _height;
     public int Height { get { return _height; } set { _height = value; } }
-
-
 
     [SerializeField]
     private string _levelData = "";
@@ -78,7 +69,7 @@ public class PipeGameController : MonoBehaviour {
 		{
 			for(int j = 0; j < Height; j ++)
 			{
-				tiles[i,j] = ((GameObject) Instantiate(DefaultTile, new Vector3(i+(i*.05f), j + (j*.05f), 0.0f), Quaternion.identity)).GetComponent<Tile>();
+                tiles[i,j] = ((GameObject) Instantiate(DefaultTile, new Vector3(i+(i*.05f), j + (j*.05f), 0.0f), Quaternion.identity)).GetComponent<Tile>();
                 tiles[i, j].transform.parent = tileHolder.gameObject.transform;
                 tiles[i, j].X = i;
                 tiles[i, j].Y = j;
@@ -134,6 +125,63 @@ public class PipeGameController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-	
+	    if(selectedTile == null)
+        {
+            SelectTile();
+        } else
+        {
+            SwapTiles();
+        }
 	}
+
+    private bool SelectTile()
+    {
+        
+        bool tileSelected = false;
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Attempting to select tile");
+            Debug.Log("touch began");
+            RaycastHit hitinformation = new RaycastHit();
+            bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitinformation);
+            if (hit)
+            {
+                Debug.Log("Hit an object");
+                if (hitinformation.transform.gameObject.tag == "Selectable")
+                {
+                    Debug.Log("Hit selectable");
+                    selectedTile = hitinformation.transform.gameObject.GetComponent<Tile>();
+                    if(selectedTile != null)
+                    {
+                        tileSelected = true;
+                    }
+                }
+            }
+        }
+        return tileSelected;
+    }
+
+    private void SwapTiles()
+    {
+        
+        if (Input.GetMouseButtonDown(0))
+        {
+            Debug.Log("Attempting to swap tiles");
+            Debug.Log("touch began");
+            RaycastHit hitinformation = new RaycastHit();
+            bool hit = Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hitinformation);
+            if (hit)
+            {
+                Debug.Log("Hit an object");
+                if (hitinformation.transform.gameObject.tag == "Selectable")
+                {
+                    Debug.Log("Hit selectable");
+                    Pipe tempPipe = selectedTile.TilePipe;
+                    Tile tileToSwap = hitinformation.transform.gameObject.GetComponent<Tile>();
+                    selectedTile.TilePipe = tileToSwap.TilePipe;
+                    tileToSwap.TilePipe = tempPipe;
+                }
+            }
+        }
+    }
 }
